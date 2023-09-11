@@ -105,4 +105,4 @@ if [ "$1" == "--set-cac" ]; then
     session    required    pam_permit.so" | /usr/bin/sudo tee /etc/pam.d/sudo > /dev/null
 fi
 
-echo "Configure the macOS system with a firmware password with the following command: `/usr/bin/sudo /usr/sbin/firmwarepasswd -setpasswd` and then restart your system."
+echo "Configure the macOS system with a firmware password with the following command: /usr/bin/sudo /usr/sbin/firmwarepasswd -setpasswd and then restart your system."

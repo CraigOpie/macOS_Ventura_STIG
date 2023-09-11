@@ -25,19 +25,29 @@ Main functionalities:
 ## Usage
 
 1. Clone this repository:
-   `git clone https://github.com/CraigOpie/macOS_Ventura_STIG.git`
+   ```bash
+   git clone https://github.com/CraigOpie/macOS_Ventura_STIG.git
+   ```
 
 2. Navigate to the directory containing the script:
-   `cd macOS_Ventura_STIG.git/src`
+   ```bash
+   cd macOS_Ventura_STIG.git/src
+   ```
 
-3. Give the script execute permissions:
-   `chmod +x macos_ventura_stig_v1r2.sh`
+4. Give the script execute permissions:
+   ```bash
+   chmod +x macos_ventura_stig_v1r2.sh
+   ```
 
-4. Run the script:
-   `./macos_ventura_stig_v1r2.sh`
+6. Run the script:
+   ```bash
+   ./macos_ventura_stig_v1r2.sh
+   ```
 
    If you want to enable Smart Card authentication configurations, use:
-   `./macos_ventura_stig_v1r2.sh --set-cac`
+   ```bash
+   ./macos_ventura_stig_v1r2.sh --set-cac
+   ```
 
 ## Contributing
 

@@ -4,7 +4,7 @@ This repository contains a script designed to automate the hardening process for
 
 ## Description
 
-The script addresses a number of configuration and security settings, making it easier for system administrators and security professionals to ensure that macOS Ventura installations are compliant with the latest STIG recommendations.
+The script addresses a number of configuration and security settings, streamlining the process for system administrators and security professionals to ensure macOS Ventura installations are compliant with the latest STIG recommendations.
 
 Main functionalities:
 - Retrieves audit directories.
@@ -15,6 +15,7 @@ Main functionalities:
 - Creates system banners.
 - Removes Access Control Lists (ACLs) from log files and folders.
 - (Optionally) Configures PAM for Smart Card authentication.
+- Installs provided configuration profiles.
 
 ## Prerequisites
 
@@ -47,6 +48,16 @@ Main functionalities:
    If you want to enable Smart Card authentication configurations, use:
    ```bash
    ./macos_ventura_stig_v1r2.sh --set-cac
+   ```
+
+   To install profiles from a directory, use:
+   ```bash
+   ./macos_ventura_stig_v1r2.sh --set-profiles "/path/to/directory_with_mobileconfigs"
+   ```
+
+   To combine both the above functionalities:
+   ```bash
+   ./macos_ventura_stig_v1r2.sh --set-cac --set-profiles "/path/to/directory_with_mobileconfigs"
    ```
 
 ## Contributing

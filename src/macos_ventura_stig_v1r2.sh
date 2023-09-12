@@ -1,10 +1,67 @@
 #!/bin/bash
 # This script was created by Craig Opie and is licensed under the MIT license.
 
+# Function to install profiles
+install_profiles() {
+    local dir="$1"
+    local include_smart_card="$2"
+
+    # Change to the directory containing the profiles
+    cd "$dir"
+
+    # Install each .mobileconfig file
+    for profile in *.mobileconfig; do
+        if [[ "$profile" == *Smart_Card_Policy.mobileconfig && "$include_smart_card" -eq 0 ]]; then
+            echo "Skipping $profile as instructed..."
+            continue
+        fi
+
+        echo "Installing $profile..."
+        /usr/bin/sudo /usr/bin/profiles -I -F "$profile"
+    done
+
+    echo "Profiles installation completed."
+}
+
 # Function to retrieve audit directories
 get_audit_dirs() {
     /usr/bin/sudo /usr/bin/grep '^dir' /etc/security/audit_control | /usr/bin/awk -F: '{print $2}'
 }
+
+# Check for arguments
+INSTALL_DIR=""
+INSTALL_SMART_CARD=0
+
+while (( "$#" )); do
+    case "$1" in
+        --set-profiles)
+            if [[ -n "$2" && ! "$2" =~ ^- ]]; then
+                INSTALL_DIR="$2"
+                shift 2
+            else
+                echo "Please provide the directory path for --set-profiles or enter it when prompted."
+                read -rp "Enter the directory path: " INSTALL_DIR
+                shift
+            fi
+            ;;
+        --set-cac)
+            INSTALL_SMART_CARD=1
+            shift
+            ;;
+        *)
+            echo "Unknown argument: $1"
+            exit 1
+            ;;
+    esac
+done
+
+# Execute the installation if --set-profiles is provided
+if [[ -n "$INSTALL_DIR" ]]; then
+    echo "Installing profiles..."
+    install_profiles "$INSTALL_DIR" "$INSTALL_SMART_CARD"
+else
+    echo "Script executed without installing profiles. Use --set-profiles to specify the profile directory."
+fi
 
 # Disabling services and setting SSH configurations
 echo "Disabling services..."
@@ -66,7 +123,7 @@ for folder in $LOG_FOLDERS; do
 done
 
 # Check if the user provided the --set-cac argument
-if [ "$1" == "--set-cac" ]; then
+if [ "$INSTALL_SMART_CARD" -eq 1 ]; then
     echo "Setting up CAC authentication..."
     # Backup and update /etc/pam.d/login
     /usr/bin/sudo /bin/cp /etc/pam.d/login /etc/pam.d/login_backup_$(date "+%Y-%m-%d_%H:%M")
